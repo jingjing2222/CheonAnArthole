@@ -1,0 +1,45 @@
+Sub ReplaceWorkCells()
+
+    Dim ws As Worksheet
+    Dim rng As Range
+    Dim col As Range
+    Dim cell As Range
+    Dim startCol As Long
+    Dim endCol As Long
+
+    ' 현재 활성화된 시트를 사용합니다
+    Set ws = ActiveSheet
+
+    ' F~AZ열의 열 번호를 설정합니다
+    startCol = Columns("G").Column
+    endCol = Columns("AT").Column
+
+    ' F~AZ열에서 3~21행 범위를 설정합니다
+    Set rng = ws.Range(ws.Cells(3, startCol), ws.Cells(21, endCol))
+
+    ' 각 열을 순회하면서 처리합니다
+    For Each col In rng.Columns
+        ' 각 셀을 순회하면서 처리합니다
+        For Each cell In col.Cells
+            ' 셀의 값이 '헤근무'이면 '김형정'으로 변경합니다
+            If cell.Value = "헤근무" Then
+                cell.Value = "김형정"
+            ' 셀의 값이 '근무'일 경우에만 값을 변경합니다
+            ElseIf cell.Value = "근무" Then
+                cell.Value = ws.Cells(2, cell.Column).Value
+            ' '헤근무'와 '근무'를 제외한 다른 경우는 빈 셀로 만듭니다
+            Else
+                cell.Value = ""
+            End If
+        Next cell
+    Next col
+
+    ' 문자열 변경 작업이 모두 끝난 후에 셀을 왼쪽으로 밀기를 시작합니다
+    ' F~AZ열에서 3~21행 범위를 다시 설정합니다
+    Set rng = ws.Range(ws.Cells(3, startCol), ws.Cells(23, endCol))
+    
+    ' 범위 내의 빈 셀을 선택하고 삭제하여 셀을 왼쪽으로 밀기 시작합니다
+    On Error Resume Next ' 빈 셀이 없는 경우에 대비하여 오류 무시
+    rng.SpecialCells(xlCellTypeBlanks).Delete Shift:=xlToLeft
+
+End Sub
