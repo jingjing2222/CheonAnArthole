@@ -8,8 +8,8 @@ import re
 from datetime import datetime
 
 # Notion API 키와 데이터베이스 ID
-NOTION_API_KEY = 'secret_rvjpkymAcp6B11Vgs2cvsDs6lAyDkMUGvtuoZlV472d'
-DATABASE_ID = 'b2131b5f967c41a4bf8820e056a8c77b'
+NOTION_API_KEY = 'YOUR_NOTION_KEY'
+DATABASE_ID = 'YOUR_DATABASE_ID'
 
 # Notion API Headers
 headers = {
