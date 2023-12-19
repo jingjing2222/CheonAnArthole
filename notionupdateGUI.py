@@ -6,29 +6,22 @@ from tkinter import messagebox
 import pandas as pd
 import re
 from datetime import datetime
-import os
 
-<<<<<<< Updated upstream
-# Your Notion API Key and Database ID
-NOTION_API_KEY = 'YOUR_API_KEY'
-DATABASE_ID = 'YOUR_DATABASE_ID(NOTION)'
-=======
 # Notion API 키와 데이터베이스 ID
 NOTION_API_KEY = 'secret_rvjpkymAcp6B11Vgs2cvsDs6lAyDkMUGvtuoZlV472d'
 DATABASE_ID = 'b2131b5f967c41a4bf8820e056a8c77b'
->>>>>>> Stashed changes
 
-# Notion API 헤더 설정
+# Notion API Headers
 headers = {
     "Authorization": "Bearer " + NOTION_API_KEY,
     "Notion-Version": "2022-02-22",
     "Content-Type": "application/json"
 }
 
-# 한국 표준시 (UTC+9)
+# Korea Standard Time (UTC+9)
 KST = timezone(timedelta(hours=9))
 
-# Notion에 행 추가하는 함수
+# Function to add a row to Notion
 def add_row_to_notion(data):
     create_row_url = f"https://api.notion.com/v1/pages"
 
@@ -48,7 +41,7 @@ def add_row_to_notion(data):
     else:
         print("Failed to add row:", response.content)
 
-# 텍스트 파일에서 공연 정보를 처리하고 Notion에 업데이트하는 함수
+# Function to process and update performances from a text file
 def get_performances():
     with open('yedang.txt', 'r', encoding='utf-8') as file:
         performances = file.read().split('\n\n')
@@ -104,11 +97,11 @@ def get_performances():
             add_row_to_notion(parsed_data)
     messagebox.showinfo("Success", "업데이트 완료.")
 
-# 프로그램 종료 함수
+# Function to quit the program
 def quit_program():
     root.destroy()
 
-# Excel 파일에서 스케줄을 추출하고 형식을 맞추는 함수
+# Function to extract and format schedule from an Excel file
 def extract_and_format_schedule(excel_file_path, output_file_path):
     excel_data = pd.read_excel(excel_file_path)
     output_text = ""
@@ -161,10 +154,7 @@ def extract_and_format_schedule(excel_file_path, output_file_path):
     with open(output_file_path, 'w', encoding='utf-8') as file:
         file.write(output_text.strip())
 
-    # 파일 작성이 완료된 후 텍스트 파일을 엽니다.
-    os.system(f'open -a TextEdit {output_file_path}')
-
-# 메인 GUI 윈도우 생성
+# Create the main GUI window
 root = tk.Tk()
 root.title("Notion Update")
 root.geometry("300x200")
